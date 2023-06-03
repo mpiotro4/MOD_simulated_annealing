@@ -2,21 +2,51 @@ from model import *
 from functions import *
 
 if __name__ == '__main__':
-    print(objective(a_optimal, x_optimal, z_optimal))
-    print(constraints(a=a_optimal, x=x_optimal, y=y_optimal, z=z_optimal, b=b_optimal))
+    # print(objective(a_optimal, x_optimal, z_optimal))
+    # print(constraints(a=a_optimal, x=x_optimal, y=y_optimal, z=z_optimal, b=b_optimal))
 
-    # a_bounds = (0, 100)
-    # b_bounds = (0, 1)
-    # x_bounds = (0, 100)
-    # y_bounds = (0, 100)
-    # z_bounds = (0, 500)
+    a_bounds = (0, 100)
+    b_bounds = (0, 1)
+    x_bounds = (0, 100)
+    y_bounds = (0, 100)
+    z_bounds = (0, 500)
+
+    a = np.zeros((6,))
+    b = np.zeros((5, 6))
+    x = np.zeros((5, 6))
+    y = np.zeros((5, 6))
+    z = np.full((5, 7), 500)
+
+    rand_a, rand_b, rand_x, rand_y, rand_z = find_neighbours(a=a, b=b, x=x, y=y, z=z)
+    print(constraints(rand_a,rand_x,rand_y,rand_z,rand_b))
+
+    # row_index, col_index = np.random.randint(0, 5), np.random.randint(1, 6)
+    # print(f"row index: {row_index}")
+    # print(f"col index: {col_index}")
+    # z_prev = z[row_index, col_index]
+    # if col_index == 6:
+    #     rand_z = 500
+    # else:
+    #     rand_z = np.random.uniform(400, 500)
+    # if rand_z >= z_prev:
+    #     rand_x = np.random.uniform(abs(rand_z - z_prev), z_prev)
+    # else:
+    #     rand_x = np.random.uniform(0, 100)
+    # rand_y = z_prev - rand_z + rand_x
+    # print(f"prev z = {z_prev}")
+    # print(f"rand z = {rand_z}")
+    # print(f"rand x = {rand_x}")
+    # print(f"rand y = {rand_y}")
+    # print(f"{z_prev + rand_x} == {rand_y + rand_z}")
     #
-    # a = np.zeros((6,))
-    # b = np.zeros((5, 6))
-    # x = np.zeros((5, 6))
-    # y = np.zeros((5, 6))
-    # z = np.full((5, 7), 500)
-    # a[np.random.randint(0, len(a))] = np.random.rand()
+    # x[row_index, col_index] = rand_x
+    # y[row_index, col_index] = rand_y
+    # z[row_index, col_index + 1] = rand_z
+    # for j in range(months):
+    #     a[j] = np.sum(y[:, j])
+    # b[row_index, col_index] = 1
+    #
+    # print(constraints(a=a, x=x, y=y, z=z, b=b))
 
     # while True:
     #     # while not constraints(a=a, x=x, y=y, z=z, b=b):

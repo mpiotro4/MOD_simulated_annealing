@@ -105,10 +105,10 @@ def constraints(a, x, y, z, b):
     # Constraint: relacje
     for i in range(oils):
         for j in range(1, months + 1):
-            constraint = abs((z[i, j - 1] + x[i, j - 1]) - (y[i, j - 1] + z[i, j])) <= 20
+            constraint = abs(z[i, j - 1] + x[i, j - 1] - y[i, j - 1] - z[i, j]) <= 20
             if not constraint:
                 if debug:
-                    print(f"Constraint relacje violated {z[i, j - 1]} + {x[i, j - 1]} == {y[i, j - 1]} - {z[i, j]}")
+                    print(f"Constraint relacje violated {z[i, j - 1]} + {x[i, j - 1]} == {y[i, j - 1]} + {z[i, j]}")
             constraints.append(constraint)
 
     # Constraint: MaksymalnePojemnosciMagazynow
