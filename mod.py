@@ -6,8 +6,8 @@ if __name__ == '__main__':
     # print(constraints(a=a_optimal, x=x_optimal, y=y_optimal, z=z_optimal, b=b_optimal))
 
     a = np.zeros((6,))
-    b = np.((5, 6))
-    x = np.zezerosros((5, 6))
+    b = np.zeros((5, 6))
+    x = np.zeros((5, 6))
     y = np.zeros((5, 6))
     z = np.full((5, 7), 500)
     a, b, x, y, z = find_neighbours(a=a, b=b, x=x, y=y, z=z)
