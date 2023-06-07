@@ -10,16 +10,19 @@ if __name__ == '__main__':
     x = np.zeros((5, 6))
     y = np.zeros((5, 6))
     z = np.full((5, 7), 500)
-    a, b, x, y, z = find_neighbours(a=a, b=b, x=x, y=y, z=z)
-
-    while not constraints(a, x, y, z, b):
+    for i in range(0, 100):
         a, b, x, y, z = find_neighbours(a=a, b=b, x=x, y=y, z=z)
+        while not constraints(a, x, y, z, b):
+            print(f"iteration: {i}")
 
-    best_solution_a = current_solution_a = a
-    best_solution_b = current_solution_b = b
-    best_solution_x = current_solution_x = x
-    best_solution_y = current_solution_y = y
-    best_solution_z = current_solution_z = z
+    # while not constraints(a, x, y, z, b):
+    #     a, b, x, y, z = find_neighbours(a=a, b=b, x=x, y=y, z=z)
+    #
+    # best_solution_a = current_solution_a = a
+    # best_solution_b = current_solution_b = b
+    # best_solution_x = current_solution_x = x
+    # best_solution_y = current_solution_y = y
+    # best_solution_z = current_solution_z = z
 
     # best_solution_a, best_solution_b, best_solution_x, best_solution_y, best_solution_z, best_obj = simulated_annealing(
     #     objective,

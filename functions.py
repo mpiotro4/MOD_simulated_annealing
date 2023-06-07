@@ -11,11 +11,11 @@ def find_neighbours(a, b, x, y, z):
     if col_index == 6:
         rand_z = 500
     else:
-        rand_z = np.random.uniform(400, 500)
+        rand_z = z[row_index, col_index + 1] + np.random.uniform(0, 100)
     if rand_z >= z_prev:
-        rand_x = np.random.uniform(abs(rand_z - z_prev), z_prev)
+        rand_x = x[row_index, col_index] + np.random.uniform(abs(rand_z - z_prev), z_prev)
     else:
-        rand_x = np.random.uniform(0, 100)
+        rand_x = x[row_index, col_index] + np.random.uniform(0, 100)
     rand_y = z_prev - rand_z + rand_x
     print(f"prev z = {z_prev}")
     print(f"rand z = {rand_z}")

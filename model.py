@@ -47,48 +47,48 @@ def constraints(a, x, y, z, b):
     # Define constraints
     constraints = []
     # Constraint: zmiennaA
-    for j in range(months):
-        constraint = abs(np.sum(y[:, j]) - a[j]) <= 0.11
-        if not constraint:
-            if debug:
-                print(f"Constraint zmiennaA violated {np.sum(y[:, j])} == {a[j]}")
-        constraints.append(constraint)
+    # for j in range(months):
+    #     constraint = abs(np.sum(y[:, j]) - a[j]) <= 0.11
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint zmiennaA violated {np.sum(y[:, j])} == {a[j]}")
+    #     constraints.append(constraint)
 
-    # Constraint: MaksymalnaIloscOlejuRoslinnegoNaMiesiac
-    for j in range(months):
-        constraint = np.sum(y[0:2, j]) <= 200
-        if not constraint:
-            if debug:
-                print(f"Constraint MaksymalnaIloscOlejuRoslinnegoNaMiesiac violated")
-        constraints.append(constraint)
-
-    # Constraint: MaksymalnaIloscOlejuNormalnegoNaMiesiac
-    for j in range(months):
-        constraint = np.sum(y[2:5, j]) <= 250
-        if not constraint:
-            if debug:
-                print(f"Constraint MaksymalnaIloscOlejuNormalnegoNaMiesiac violated")
-        constraints.append(constraint)
-
-    # Constraint: MaksymalnaTwardosc
-    for j in range(months):
-        constraint = np.sum(y[:, j] * T) <= 6 * a[j]
-        if not constraint:
-            if debug:
-                print(f"Constraint MaksymalnaTwardosc violated {np.sum(y[:, j] * T)} <= {6 * a[j]}")
-        constraints.append(constraint)
-
-    # Constraint: MinimalnaTwardosc
-    for j in range(months):
-        constraint = np.sum(y[:, j] * T) >= 3 * a[j]
-        if not constraint:
-            if debug:
-                print(f"Constraint MinimalnaTwardosc violated {np.sum(y[:, j] * T)} >= {3 * a[j]}")
-        constraints.append(constraint)
+    # # Constraint: MaksymalnaIloscOlejuRoslinnegoNaMiesiac
+    # for j in range(months):
+    #     constraint = np.sum(y[0:2, j]) <= 200
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint MaksymalnaIloscOlejuRoslinnegoNaMiesiac violated")
+    #     constraints.append(constraint)
+    #
+    # # Constraint: MaksymalnaIloscOlejuNormalnegoNaMiesiac
+    # for j in range(months):
+    #     constraint = np.sum(y[2:5, j]) <= 250
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint MaksymalnaIloscOlejuNormalnegoNaMiesiac violated")
+    #     constraints.append(constraint)
+    #
+    # # Constraint: MaksymalnaTwardosc
+    # for j in range(months):
+    #     constraint = np.sum(y[:, j] * T) <= 6 * a[j]
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint MaksymalnaTwardosc violated {np.sum(y[:, j] * T)} <= {6 * a[j]}")
+    #     constraints.append(constraint)
+    #
+    # # Constraint: MinimalnaTwardosc
+    # for j in range(months):
+    #     constraint = np.sum(y[:, j] * T) >= 3 * a[j]
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint MinimalnaTwardosc violated {np.sum(y[:, j] * T)} >= {3 * a[j]}")
+    #     constraints.append(constraint)
 
     # Constraint: StanPoczatkowy
     for i in range(oils):
-        constraint = z[i, 0] == 500
+        constraint = z[i, 0] >= 500
         if not constraint:
             if debug:
                 print(f"Constraint StanPoczatkowy violated")
@@ -96,7 +96,7 @@ def constraints(a, x, y, z, b):
 
     # Constraint: StanKoncowy
     for i in range(oils):
-        constraint = z[i, months] == 500
+        constraint = z[i, months] >= 500
         if not constraint:
             if debug:
                 print(f"Constraint StanKoncowy violated")
@@ -109,6 +109,14 @@ def constraints(a, x, y, z, b):
             if not constraint:
                 if debug:
                     print(f"Constraint relacje violated {z[i, j - 1]} + {x[i, j - 1]} == {y[i, j - 1]} + {z[i, j]}")
+                    # z[i, j - 1] = 500
+                    z[i, j] = z[i, j] + np.random.uniform(0, 10)
+                    x[i, j - 1] = x[i, j - 1] + np.random.uniform(0, 10)
+                    y[i, j - 1] = x[i, j - 1] + z[i, j - 1] - z[i, j]
+                # if z[i, j - 1] - z[i, j] > 0:
+                #     y[i, j - 1] = z[i, j - 1] - z[i, j]
+                # elif z[i, j] - z[i, j - 1] > 0:
+                #     x[i, j - 1] = z[i, j] - z[i, j - 1]
             constraints.append(constraint)
 
     # Constraint: MaksymalnePojemnosciMagazynow
@@ -121,47 +129,47 @@ def constraints(a, x, y, z, b):
             constraints.append(constraint)
 
     # Constraint: Maks3Oleje
-    for j in range(months):
-        constraint = np.sum(b[:, j]) <= 3
-        if not constraint:
-            if debug:
-                print(f"Constraint Maks3Oleje violated")
-        constraints.append(constraint)
+    # for j in range(months):
+    #     constraint = np.sum(b[:, j]) <= 3
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint Maks3Oleje violated")
+    #     constraints.append(constraint)
 
     # Constraint: Min20Ton
-    for i in range(oils):
-        for j in range(months):
-            constraint = y[i, j] >= 20 * b[i, j]
-            if not constraint:
-                if debug:
-                    print(f"Constraint Min20Ton violated {y[i, j]} >= {20 * b[i, j]}")
-            constraints.append(constraint)
+    # for i in range(oils):
+    #     for j in range(months):
+    #         constraint = y[i, j] >= 20 * b[i, j]
+    #         if not constraint:
+    #             if debug:
+    #                 print(f"Constraint Min20Ton violated {y[i, j]} >= {20 * b[i, j]}")
+    #         constraints.append(constraint)
 
     # Constraint: zmiennaBinarna
-    for i in range(oils):
-        for j in range(months):
-            constraint = y[i, j] <= 200 * b[i, j]
-            if not constraint:
-                if debug:
-                    print(f"Constraint zmiennaBinarna violated")
-            constraints.append(constraint)
-
-    # Constraint: zmiennaBinarna2
-    for i in range(2, oils):
-        for j in range(months):
-            constraint = y[i, j] <= 250 * b[i, j]
-            if not constraint:
-                if debug:
-                    print(f"Constraint zmiennaBinarna2 violated")
-            constraints.append(constraint)
+    # for i in range(oils):
+    #     for j in range(months):
+    #         constraint = y[i, j] <= 200 * b[i, j]
+    #         if not constraint:
+    #             if debug:
+    #                 print(f"Constraint zmiennaBinarna violated")
+    #         constraints.append(constraint)
+    #
+    # # Constraint: zmiennaBinarna2
+    # for i in range(2, oils):
+    #     for j in range(months):
+    #         constraint = y[i, j] <= 250 * b[i, j]
+    #         if not constraint:
+    #             if debug:
+    #                 print(f"Constraint zmiennaBinarna2 violated")
+    #         constraints.append(constraint)
 
     # Constraint: JesliVEG1toOIL3
-    for j in range(months):
-        constraint = b[0, j] - b[4, j] <= 0
-        if not constraint:
-            if debug:
-                print(f"Constraint JesliVEG1toOIL3 violated")
-        constraints.append(constraint)
+    # for j in range(months):
+    #     constraint = b[0, j] - b[4, j] <= 0
+    #     if not constraint:
+    #         if debug:
+    #             print(f"Constraint JesliVEG1toOIL3 violated")
+    #     constraints.append(constraint)
 
     return np.all(constraints)
 
